@@ -1,25 +1,26 @@
 def dijkstra(queue,wallList,finish):
 
     while True:
-    # queue = filterDuplicate(queue)
+        # queue = filterDuplicate(queue)
         #queue = sortQueue(queue)
-        print(queue)
+        #print(queue)
 
-        nearest = findNearest(queue,wallList,queue[0][1],queue[0][0])
+        nearest = findNearest(queue,wallList,queue[0][-1],queue[0][0])
+
+        if nearest == [] and len(queue) == 1:
+            return "No solution!"
 
         for i in range(len(nearest)):
             if finish in nearest[i]:
-                print(nearest[i][0])
-                return True
-                
-        queue.extend(nearest)
+                queue[0][0] += 1
+                return queue[0] + [finish]
+
+            else:
+                queue.append(queue[0] + [nearest[i][1]])
+                queue[-1][0] = nearest[i][0]
+
         queue.remove(queue[0])
 
-
-    #if dijkstra(queue,finish):
-        #return True
-
-    #return False
 
 def findNearest(queue,walls,point,value):
      
@@ -58,7 +59,7 @@ def findNearest(queue,walls,point,value):
 
     for k in range(len(queue)):
         for m in range(len(newNearest)):
-            if (newNearest[m][1] == queue[k][1] and newNearest[m][0] >= queue[k][0]):
+            if (newNearest[m][1] == queue[k][-1] and newNearest[m][0] >= queue[k][0]):
                 indicies.append(m)
 
     nearest = newNearest
@@ -72,36 +73,6 @@ def findNearest(queue,walls,point,value):
             
             
 """
-def filterDuplicate(queue):
-
-    newQueue = []
-    match = []
-    highestLength = 0
-    i = 0
-
-    while i < len(queue)-1:
-
-        for j in range(i+1,len(queue)):
-            if queue[i][1] == queue[j][1]:
-
-                if queue[i][0] > highestLength:
-                    highestLength = queue[i][0]
-
-                if queue[j][0] > highestLength:
-                    highestLength = queue[j][0]
-
-        
-            if queue[i][1] != queue[j][1] or (queue[i][1] == queue[j][1] and queue[j][0] == highestLength):
-                newQueue.append(queue[j])
-
-        
-
-        queue = newQueue
-        i = i+1
-
-    return queue
-
-
 def sortQueue(queue):
 
     for i in range(len(queue)-1):
@@ -111,7 +82,7 @@ def sortQueue(queue):
 
     return queue
 """
-    
+"""
 while True:
     startx = int(input("Start x: "))
     starty = int(input("Start y: "))
@@ -122,7 +93,7 @@ while True:
     
     ans = ''
 
-    while ans != 'yes':
+    while ans != 'no':
         wallx = int(input("Wall x: "))
         wally = int(input("Wall y: "))
 
@@ -131,9 +102,14 @@ while True:
 
     start = (startx,starty)
     finish = (finishx,finishy)
-    wall = (wallx,wally)
 
     queue = [[0,start]]
 
     print(dijkstra(queue,wallList,finish))
     print('\n')
+"""
+
+
+
+
+
