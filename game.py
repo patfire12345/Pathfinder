@@ -19,6 +19,7 @@ margin = 5
 # Dijkstra parameters
 start = (0,0)
 finish = (19,19)
+limit = (19,19)
 queue = [[0,start]]
 wall = []
 startLen = []
@@ -31,9 +32,9 @@ clearButton = False
 
 # Creating the board
 grid = []
-for i in range(21):
+for i in range(20):
     grid.append([])
-    for j in range(21):
+    for j in range(20):
         if (j,i) in wall:
             grid[i].append(1)
 
@@ -78,11 +79,11 @@ while not done:
                 finishButton = False
 
                 queue = [[0,start]]
-                path = dijkstra(queue,wall,finish)
+                path = dijkstra(queue,wall,finish,limit)
 
                 for i in range(1,len(path)):
                     grid[path[i][1]][path[i][0]] = 3
-                    print(path)
+                    #print(path)
 
             elif pos[0] > 700 and pos[0] < 750 and pos[1] > 200 and pos[1] < 225:
                 startButton = not startButton
@@ -99,9 +100,12 @@ while not done:
                 for i in range(len(grid)):
                     for j in range(len(grid[i])):
                         grid[i][j] = 0
+
+                startButton = False
+                finishButton = False
                 
 
-            elif (grid[row][column] == 0):
+            elif (pos[0] < 495 and pos[1] < 495 and grid[row][column] == 0):
                             
                 if startButton:
                     grid[row][column] = 2
@@ -127,7 +131,8 @@ while not done:
                     wall.append((column,row))
 
             else:
-                grid[row][column] = 0
+                print(pos)
+                #grid[row][column] = 0
                 #wall.remove((column,row)) #Fix walls
 
     screen.fill(black)
@@ -135,8 +140,8 @@ while not done:
     #pygame.draw.rect(screen, green, (600,150,100,50),"Dijkstra")
 
     
-    for i in range(21):
-        for j in range(21):
+    for i in range(20):
+        for j in range(20):
 
             if grid[i][j] == 0 or clear:
                 colour = white
